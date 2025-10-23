@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuidando de sua Diabetes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/temas.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="tema-claro">
+    <header>
+        <div class="container">
+            <h1>❤️ Cuidando de sua Diabetes</h1>
+            <nav>
+                <div class="theme-selector">
+                    <button id="btn-temas" class="btn-temas" title="Alterar tema">🎨</button>
+                    <div id="menu-temas" class="menu-temas">
+                        <button data-tema="claro">🌞 Claro</button>
+                        <button data-tema="escuro">🌙 Escuro</button>
+                        <button data-tema="verde">🍃 Verde</button>
+                        <button data-tema="azul">🔵 Azul</button>
+                    </div>
+                </div>
+                <button id="btn-menu" class="btn-menu">☰</button>
+                <ul id="menu">
+                    <li><a href="#" data-section="registro">➕ Registrar Glicemia</a></li>
+                    <li><a href="#" data-section="historico">📊 Histórico</a></li>
+                    <li><a href="#" data-section="grafico">📈 Gráficos</a></li>
+                    <li><a href="#" data-section="metas">🎯 Metas</a></li>
+                    <li><a href="#" data-section="alimentos">🍎 Alimentos</a></li>
+                    <li><a href="#" data-section="indice">🧮 Índice Glicêmico</a></li>
+                    <li><a href="#" data-section="relatorio">📋 Relatórios</a></li>
+                    <li><a href="#" data-section="sobre">ℹ️ Sobre</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Seção de Registro de Glicemia -->
+        <section id="registro" class="secao ativa">
+            <h2>➕ Registrar Glicemia</h2>
+            <form id="form-glicemia">
+                <div class="form-group">
+                    <label for="glicemia">Nível de Glicemia (mg/dL):</label>
+                    <input type="number" id="glicemia" required min="20" max="600">
+                    <div class="glicemia-indicador">
+                        <span class="indicador-baixo">< 70 mg/dL (Baixa)</span>
+                        <span class="indicador-normal">70-180 mg/dL (Normal)</span>
+                        <span class="indicador-alto">181-250 mg/dL (Alta)</span>
+                        <span class="indicador-muito-alto">> 250 mg/dL (Muito Alta)</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" required>
+                </div>
+                <div class="form-group">
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" required>
+                </div>
+                <div class="form-group">
+                    <label for="observacao">Observações:</label>
+                    <textarea id="observacao" rows="3" placeholder="Ex: Após café da manhã, antes do exercício..."></textarea>
+                </div>
+                <button type="submit" class="btn-principal">Registrar Glicemia</button>
+            </form>
+            
+            <div class="alertas">
+                <h3>⚠️ Alertas de Glicemia</h3>
+                <div class="alerta-config">
+                    <div class="form-group">
+                        <label for="limite-baixo">Limite de Glicemia Baixa (mg/dL):</label>
+                        <input type="number" id="limite-baixo" value="70" min="50" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="contato-emergencia">Contato de Emergência (WhatsApp):</label>
+                        <input type="tel" id="contato-emergencia" placeholder="+5511999999999">
+                    </div>
+                    <button id="testar-alerta" class="btn-secundario">Testar Alerta</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Histórico -->
+        <section id="historico" class="secao">
+            <h2>📊 Histórico de Glicemia</h2>
+            <div class="filtros">
+                <div class="filtro-group">
+                    <div class="form-group">
+                        <label for="filtro-data">Filtrar por data:</label>
+                        <input type="date" id="filtro-data">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtro-status">Filtrar por status:</label>
+                        <select id="filtro-status">
+                            <option value="todos">Todos os Status</option>
+                            <option value="baixa">Baixa</option>
+                            <option value="normal">Normal</option>
+                            <option value="alta">Alta</option>
+                            <option value="muito-alta">Muito Alta</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="limpar-filtro" class="btn-secundario">Limpar Filtros</button>
+            </div>
+            <div id="lista-historico" class="lista-historico">
+                <!-- Os registros serão inseridos aqui via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Seção de Gráficos -->
+        <section id="grafico" class="secao">
+            <h2>📈 Gráfico de Glicemia</h2>
+            <div class="grafico-opcoes">
+                <div class="form-group">
+                    <label for="periodo-grafico">Período do Gráfico:</label>
+                    <select id="periodo-grafico">
+                        <option value="7">Últimos 7 dias</option>
+                        <option value="15">Últimos 15 dias</option>
+                        <option value="30">Últimos 30 dias</option>
+                        <option value="personalizado">Personalizado</option>
+                    </select>
+                </div>
+                <div id="periodo-personalizado" class="form-group periodo-personalizado">
+                    <label for="grafico-inicio">De:</label>
+                    <input type="date" id="grafico-inicio">
+                    <label for="grafico-fim">Até:</label>
+                    <input type="date" id="grafico-fim">
+                </div>
+            </div>
+            <div class="grafico-container">
+                <canvas id="grafico-glicemia"></canvas>
+            </div>
+            <div class="legenda-grafico">
+                <div class="legenda-item">
+                    <span class="cor-legenda" style="background-color: var(--cor-info);"></span>
+                    <span>Hipoglicemia (<70 mg/dL)</span>
+                </div>
+                <div class="legenda-item">
+                    <span class="cor-legenda" style="background-color: var(--cor-sucesso);"></span>
+                    <span>Normal (70-180 mg/dL)</span>
+                </div>
+                <div class="legenda-item">
+                    <span class="cor-legenda" style="background-color: var(--cor-alerta);"></span>
+                    <span>Alta (181-250 mg/dL)</span>
+                </div>
+                <div class="legenda-item">
+                    <span class="cor-legenda" style="background-color: var(--cor-perigo);"></span>
+                    <span>Muito Alta (>250 mg/dL)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Metas -->
+        <section id="metas" class="secao">
+            <h2>🎯 Metas</h2>
+            <div class="metas-container">
+                <div class="metas-pendentes">
+                    <h3>Metas para Alcançar</h3>
+                    <form id="form-meta">
+                        <div class="form-group">
+                            <label for="descricao-meta">Descrição da Meta:</label>
+                            <input type="text" id="descricao-meta" required placeholder="Ex: Fazer exercícios 3x por semana">
+                        </div>
+                        <div class="form-group">
+                            <label for="data-meta">Data Limite:</label>
+                            <input type="date" id="data-meta">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria-meta">Categoria:</label>
+                            <select id="categoria-meta">
+                                <option value="exercicio">Exercício</option>
+                                <option value="alimentacao">Alimentação</option>
+                                <option value="medicacao">Medicação</option>
+                                <option value="controle">Controle Glicêmico</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-principal">Adicionar Meta</button>
+                    </form>
+                    <ul id="lista-metas-pendentes" class="lista-metas">
+                        <!-- Metas pendentes serão inseridas aqui -->
+                    </ul>
+                </div>
+                <div class="metas-concluidas">
+                    <h3>Metas Concluídas</h3>
+                    <div class="estatisticas-metas">
+                        <div class="estatistica-item">
+                            <span class="estatistica-valor" id="total-metas">0</span>
+                            <span class="estatistica-label">Total de Metas</span>
+                        </div>
+                        <div class="estatistica-item">
+                            <span class="estatistica-valor" id="metas-concluidas">0</span>
+                            <span class="estatistica-label">Concluídas</span>
+                        </div>
+                        <div class="estatistica-item">
+                            <span class="estatistica-valor" id="percentual-concluidas">0%</span>
+                            <span class="estatistica-label">Taxa de Conclusão</span>
+                        </div>
+                    </div>
+                    <ul id="lista-metas-concluidas" class="lista-metas">
+                        <!-- Metas concluídas serão inseridas aqui -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Alimentos -->
+        <section id="alimentos" class="secao">
+            <h2>🍎 Registro de Alimentos</h2>
+            <form id="form-alimento">
+                <div class="form-group">
+                    <label for="alimento">Alimento:</label>
+                    <input type="text" id="alimento" required placeholder="Ex: Maçã, Arroz integral...">
+                </div>
+                <div class="form-group">
+                    <label for="categoria-alimento">Categoria:</label>
+                    <select id="categoria-alimento">
+                        <option value="carboidrato">Carboidrato</option>
+                        <option value="proteina">Proteína</option>
+                        <option value="gordura">Gordura</option>
+                        <option value="fibra">Fibra</option>
+                        <option value="fruta">Fruta</option>
+                        <option value="vegetal">Vegetal</option>
+                        <option value="laticinio">Laticínio</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="efeito-glicemia">Efeito na Glicemia:</label>
+                    <select id="efeito-glicemia">
+                        <option value="positivo">Positivo (Controla)</option>
+                        <option value="negativo">Negativo (Aumenta)</option>
+                        <option value="neutro">Neutro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="observacao-alimento">Observações:</label>
+                    <textarea id="observacao-alimento" rows="3" placeholder="Ex: Consumido no café da manhã, efeito percebido após 2 horas..."></textarea>
+                </div>
+                <button type="submit" class="btn-principal">Registrar Alimento</button>
+            </form>
+            
+            <div id="lista-alimentos" class="lista-alimentos">
+                <!-- Alimentos registrados serão inseridos aqui -->
+            </div>
+        </section>
+
+        <!-- Seção de Índice Glicêmico -->
+        <section id="indice" class="secao">
+            <h2>🧮 Cálculo de Índice Glicêmico</h2>
+            <div class="indice-container">
+                <div class="calculo-indice">
+                    <h3>Calcular Índice Glicêmico</h3>
+                    <form id="form-indice">
+                        <div class="form-group">
+                            <label for="periodo-inicio">Período Inicial:</label>
+                            <input type="date" id="periodo-inicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="periodo-fim">Período Final:</label>
+                            <input type="date" id="periodo-fim" required>
+                        </div>
+                        <button type="submit" class="btn-principal">Calcular Índice</button>
+                    </form>
+                </div>
+                <div id="resultado-indice" class="resultado-indice">
+                    <!-- Resultado do cálculo será exibido aqui -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Relatórios -->
+        <section id="relatorio" class="secao">
+            <h2>📋 Relatórios</h2>
+            <div class="relatorio-container">
+                <div class="relatorio-opcoes">
+                    <h3>Gerar Relatório</h3>
+                    <form id="form-relatorio">
+                        <div class="form-group">
+                            <label for="relatorio-periodo-inicio">Período Inicial:</label>
+                            <input type="date" id="relatorio-periodo-inicio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="relatorio-periodo-fim">Período Final:</label>
+                            <input type="date" id="relatorio-periodo-fim" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo-relatorio">Tipo de Relatório:</label>
+                            <select id="tipo-relatorio">
+                                <option value="completo">Completo</option>
+                                <option value="glicemia">Apenas Glicemia</option>
+                                <option value="alimentos">Apenas Alimentos</option>
+                                <option value="metas">Apenas Metas</option>
+                                <option value="indice">Índice Glicêmico</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-principal">Gerar Relatório</button>
+                    </form>
+                </div>
+                <div id="previa-relatorio" class="previa-relatorio">
+                    <!-- Prévia do relatório será exibida aqui -->
+                </div>
+                <button id="baixar-relatorio-pdf" class="btn-principal" disabled>📥 Baixar Relatório em PDF</button>
+            </div>
+        </section>
+
+        <!-- Seção Sobre -->
+        <section id="sobre" class="secao">
+            <h2>ℹ️ Sobre o Sistema</h2>
+            <div class="sobre-container">
+                <div class="sobre-info">
+                    <h3>Objetivo do Sistema</h3>
+                    <p>O <strong>Cuidando de sua Diabetes</strong> foi desenvolvido para auxiliar no monitoramento e controle da diabetes, permitindo o registro de glicemia, acompanhamento de metas, análise de índice glicêmico e muito mais.</p>
+                    
+                    <h3>Funcionalidades Principais</h3>
+                    <ul>
+                        <li>Registro de glicemia com data, hora e observações</li>
+                        <li>Histórico e gráficos coloridos de glicemia com indicadores de gravidade</li>
+                        <li>Criação e acompanhamento de metas com categorias</li>
+                        <li>Registro de alimentos e seus efeitos na glicemia</li>
+                        <li>Cálculo de índice glicêmico com recomendações personalizadas</li>
+                        <li>Geração de relatórios em PDF para médicos</li>
+                        <li>Alertas por WhatsApp em caso de glicemia baixa</li>
+                        <li>Múltiplos temas (claro, escuro, verde, azul)</li>
+                        <li>Design responsivo para uso em dispositivos móveis</li>
+                    </ul>
+                    
+                    <h3>Desenvolvedor</h3>
+                    <p><strong>Nome:</strong> Gledison Arruda Andrade</p>
+                    
+                    <h3>Como Usar</h3>
+                    <p>Navegue pelas diferentes seções usando o menu para registrar seus dados, visualizar gráficos, acompanhar metas e gerar relatórios.</p>
+                    
+                    <h3>Dicas para um Melhor Controle</h3>
+                    <ul>
+                        <li>Meça sua glicemia regularmente, especialmente antes e após as refeições</li>
+                        <li>Registre todos os alimentos consumidos e seus efeitos</li>
+                        <li>Estabeleça metas realistas e acompanhe seu progresso</li>
+                        <li>Compartilhe os relatórios com seu médico nas consultas</li>
+                        <li>Utilize os alertas para situações de emergência</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Cuidando de sua Diabetes - Desenvolvido por Gledison Arruda Andrade</p>
+        </div>
+    </footer>
+
+    <script src="js/temas.js"></script>
+    <script src="js/graficos.js"></script>
+    <script src="js/relatorios.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

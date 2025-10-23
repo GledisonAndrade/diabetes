@@ -1,0 +1,56 @@
+/* css/temas.css - Definições dos temas de cores */
+:root {
+    --cor-primaria: #4a90e2;
+    --cor-secundaria: #f5a623;
+    --cor-texto: #333;
+    --cor-fundo: #f9f9f9;
+    --cor-borda: #ddd;
+    --cor-card: #fff;
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    --cor-perigo: #e74c3c;
+    --cor-alerta: #f39c12;
+    --cor-sucesso: #2ecc71;
+    --cor-info: #3498db;
+}
+
+.tema-escuro {
+    --cor-primaria: #5fa8f7;
+    --cor-secundaria: #ffb74d;
+    --cor-texto: #f0f0f0;
+    --cor-fundo: #1a1a1a;
+    --cor-borda: #444;
+    --cor-card: #2d2d2d;
+    --cor-sombra: rgba(0, 0, 0, 0.3);
+    --cor-perigo: #e74c3c;
+    --cor-alerta: #f39c12;
+    --cor-sucesso: #27ae60;
+    --cor-info: #3498db;
+}
+
+.tema-verde {
+    --cor-primaria: #27ae60;
+    --cor-secundaria: #2ecc71;
+    --cor-texto: #2c3e50;
+    --cor-fundo: #ecf0f1;
+    --cor-borda: #bdc3c7;
+    --cor-card: #ffffff;
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    --cor-perigo: #e74c3c;
+    --cor-alerta: #f39c12;
+    --cor-sucesso: #27ae60;
+    --cor-info: #3498db;
+}
+
+.tema-azul {
+    --cor-primaria: #2980b9;
+    --cor-secundaria: #3498db;
+    --cor-texto: #2c3e50;
+    --cor-fundo: #ecf0f1;
+    --cor-borda: #bdc3c7;
+    --cor-card: #ffffff;
+    --cor-sombra: rgba(0, 0, 0, 0.1);
+    --cor-perigo: #e74c3c;
+    --cor-alerta: #f39c12;
+    --cor-sucesso: #27ae60;
+    --cor-info: #3498db;
+}
